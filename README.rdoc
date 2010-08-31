@@ -17,9 +17,9 @@ you can use it as
    a. To get a list of addresses 
 	  PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :postcode => "sw19 1ne").lookup
 	
-   b. Then, to get a particular detailed address (to fill out your address form fields)
+   b. Then, to get a particular detailed address (to fill out your address form fields) 
       PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :fetch_id => "24077031.00").fetch
-
+	
 == Note on Patches/Pull Requests
  
 * Fork the project.
