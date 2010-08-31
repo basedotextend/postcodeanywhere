@@ -81,7 +81,7 @@ module PostcodeAnywhere
   	def lookup_type
   		if self.country_code == "GB"
   			"action=lookup&type=by_postcode"
-  		elsif self.country.name == "US"
+  		elsif self.country_code == "US"
   			"action=lookup&type=by_zip"
   		else
   			"action=international&type=fetch_streets"
