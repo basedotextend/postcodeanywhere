@@ -30,6 +30,7 @@ module PostcodeAnywhere
     def initialize(args={})
       self.postcode = args[:postcode]
       self.country_code = args[:country_code]
+      self.fetch_id = args[:fetch_id]
     end
 
   	def lookup
