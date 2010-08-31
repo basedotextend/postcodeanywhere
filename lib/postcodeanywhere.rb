@@ -25,11 +25,11 @@ module PostcodeAnywhere
   	include HTTParty
   	format :xml
 
-  	attr_accessor :postcode, :country_name, :fetch_id
+  	attr_accessor :postcode, :country_code, :fetch_id
 
     def initialize(args={})
       self.postcode = args[:postcode]
-      self.country_name = args[:country_name]
+      self.country_code = args[:country_code]
     end
 
   	def lookup
@@ -73,30 +73,23 @@ module PostcodeAnywhere
   		ADDRESS_FETCH+"&"+self.address_fetch_id+"&"+self.country_code+"&"+self.license_information
   	end
 	
-  	def country
-  	  Country.find_by_name(self.country_name)
-  	end
 
   	def address_fetch_id
   		"id="+self.fetch_id
   	end
 
   	def lookup_type
-  		if self.country.name == "United Kingdom"
+  		if self.country_code == "GB"
   			"action=lookup&type=by_postcode"
-  		elsif self.country.name == "United States"
+  		elsif self.country.name == "US"
   			"action=lookup&type=by_zip"
   		else
   			"action=international&type=fetch_streets"
   		end
   	end
 
-  	def country_code
-  		"country="+self.country.code
-  	end
-
   	def postcode_with_no_spaces
-  		(self.country.name=="United States" ? "zip=" : "postcode=")+self.postcode.gsub(/\s/, '')
+  		(self.country_code=="US" ? "zip=" : "postcode=")+self.postcode.gsub(/\s/, '')
   	end
 
   	def license_information
