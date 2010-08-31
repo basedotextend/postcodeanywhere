@@ -93,7 +93,7 @@ module PostcodeAnywhere
   	end
 
   	def license_information
-  		"account_code="+self.account_code+"&license_code="+self.license_code
+  		"account_code="+PostcodeAnywhere::Request.account_code+"&license_code="+PostcodeAnywhere::Request.license_code
   	end
   
   end
