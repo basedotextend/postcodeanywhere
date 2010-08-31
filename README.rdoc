@@ -7,16 +7,15 @@ you can use it as
 1. gem install postcodeanywhere
 
 2. In your environment.rb add the following lines
-
-   PostcodeAnywhere::Request.account_code = "YOUR_ACCOUNT_CODE"
-   PostcodeAnywhere::Request.license_code = "YOUR_LICENSE_CODE"
+	PostcodeAnywhere::Request.account_code = "YOUR_ACCOUNT_CODE"
+	PostcodeAnywhere::Request.license_code = "YOUR_LICENSE_CODE"
 
 3. Then in your model or controller you can do something like
    a. To get a list of addresses 
-	  PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :postcode => "sw19 1ne").lookup
+		PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :postcode => "sw19 1ne").lookup
 	
    b. Then, to get a particular detailed address (to fill out your address form fields) 
-      PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :fetch_id => "24077031.00").fetch
+		PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :fetch_id => "24077031.00").fetch
 	
 == Note on Patches/Pull Requests
  
