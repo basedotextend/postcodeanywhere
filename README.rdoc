@@ -1,7 +1,5 @@
 = postcodeanywhere
 
-Description goes here.
-
 This is an interface to postcode lookup service provided by postcodeanywhere.co.uk
 
 you can use it as
