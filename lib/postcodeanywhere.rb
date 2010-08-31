@@ -45,14 +45,14 @@ module PostcodeAnywhere
   		data = PostcodeSearch.get self.fetch_url
   		formatted_data = data["NewDataSet"]["Data"]
   		@address_lookup = AddressLookup.new
-      if @postcode_search.country.name == 'United Kingdom'
+      if @postcode_search.country_code == 'GB'
         @address_lookup.postcode = formatted_data["postcode"]
         @address_lookup.address_line_1 = formatted_data["line1"]
         @address_lookup.address_line_2 = formatted_data["line2"]
         @address_lookup.address_line_3 = formatted_data["line3"]
         @address_lookup.post_town = formatted_data["post_town"]
         @address_lookup.county = formatted_data["county"].blank? ? formatted_data["post_town"] : formatted_data["county"]
-      elsif @postcode_search.country.name == 'United States'
+      elsif @postcode_search.country_code == 'US'
         @address_lookup.postcode = formatted_data["zip4"].blank? ? @postcode_search.postcode : formatted_data["zip4"]
         @address_lookup.address_line_1 = formatted_data["line1"]
         @address_lookup.address_line_2 = formatted_data["line2"]
