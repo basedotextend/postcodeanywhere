@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/postcodeanywhere.rb",
+     "postcodeanywhere.gemspec",
      "test/helper.rb",
      "test/test_postcodeanywhere.rb"
   ]
