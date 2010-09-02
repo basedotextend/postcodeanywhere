@@ -1,4 +1,4 @@
-require 'HTTParty'
+require 'httparty'
 
 module PostcodeAnywhere
   
@@ -61,7 +61,7 @@ module PostcodeAnywhere
         @address_lookup.post_town = formatted_data["city"]
         @address_lookup.county = formatted_data["county_name"]+", "+formatted_data["state"]
       else
-
+          
       end
       @address_lookup
   	end
