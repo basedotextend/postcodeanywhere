@@ -2,7 +2,7 @@
 
 This is an interface to postcode lookup service provided by postcodeanywhere.co.uk
 
-you can use it as
+you can use it as below:
 
 1. gem install postcodeanywhere
 
@@ -10,13 +10,15 @@ you can use it as
 	PostcodeAnywhere::Request.account_code = "YOUR_ACCOUNT_CODE"
 	PostcodeAnywhere::Request.license_code = "YOUR_LICENSE_CODE"
 
-3. Then in your model or controller you can do something like
+3. Then in your model or controller,
    a. To get a list of addresses 
 		PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :postcode => "sw19 1ne").lookup
 	
    b. Then, to get a particular detailed address (to fill out your address form fields) 
 		PostcodeAnywhere::PostcodeSearch.new(:country_code=> "GB", :fetch_id => "24077031.00").fetch
-	
+
+4. Currently the fetch only works for UK and US. The other countries need different handling so it will be built when I have had a chance.
+
 == Note on Patches/Pull Requests
  
 * Fork the project.

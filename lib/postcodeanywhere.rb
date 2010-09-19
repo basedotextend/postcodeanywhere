@@ -67,11 +67,11 @@ module PostcodeAnywhere
   	end
 
   	def lookup_url
-  		ADDRESS_LOOKUP+"?"+self.lookup_type+"&"+self.postcode_with_no_spaces+"&"+self.country_code+"&"+self.license_information
+  		ADDRESS_LOOKUP+"?"+self.lookup_type+"&"+self.postcode_with_no_spaces+"&country="+self.country_code+"&"+self.license_information
   	end
 
   	def fetch_url
-  		ADDRESS_FETCH+"&"+self.address_fetch_id+"&"+self.country_code+"&"+self.license_information
+  		ADDRESS_FETCH+"&"+self.address_fetch_id+"&country="+self.country_code+"&"+self.license_information
   	end
 	
 
