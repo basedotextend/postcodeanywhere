@@ -67,13 +67,20 @@ module PostcodeAnywhere
   	end
 
   	def lookup_url
-  		ADDRESS_LOOKUP+"?"+self.lookup_type+"&"+self.postcode_with_no_spaces+"&country="+self.country_code+"&"+self.license_information
+  		ADDRESS_LOOKUP+"?"+self.lookup_type+"&"+self.postcode_with_no_spaces+self.selected_country+"&"+self.license_information
   	end
 
   	def fetch_url
-  		ADDRESS_FETCH+"&"+self.address_fetch_id+"&country="+self.country_code+"&"+self.license_information
+  		ADDRESS_FETCH+"&"+self.address_fetch_id+self.selected_country+"&"+self.license_information
   	end
 	
+	  def selected_country
+	    if self.country_code == "GB"
+  			""
+  		else
+  			"&country="+self.country_code
+  		end
+	  end
 
   	def address_fetch_id
   		"id="+self.fetch_id
