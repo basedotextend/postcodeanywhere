@@ -52,9 +52,9 @@ module PostcodeAnywhere
         @address_lookup.address_line_2 = formatted_data["line2"]
         @address_lookup.address_line_3 = formatted_data["line3"]
         @address_lookup.post_town = formatted_data["post_town"]
-        @address_lookup.county = formatted_data["county"].blank? ? formatted_data["post_town"] : formatted_data["county"]
+        @address_lookup.county = formatted_data["county"].empty? ? formatted_data["post_town"] : formatted_data["county"]
       elsif self.country_code == 'US'
-        @address_lookup.postcode = formatted_data["zip4"].blank? ? @postcode_search.postcode : formatted_data["zip4"]
+        @address_lookup.postcode = formatted_data["zip4"].empty? ? @postcode_search.postcode : formatted_data["zip4"]
         @address_lookup.address_line_1 = formatted_data["line1"]
         @address_lookup.address_line_2 = formatted_data["line2"]
         @address_lookup.address_line_3 = formatted_data["line3"]
