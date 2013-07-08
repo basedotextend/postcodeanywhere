@@ -1,31 +1,34 @@
 require 'httparty'
 
 module PostcodeAnywhere
-  
+
   ADDRESS_LOOKUP = "http://services.postcodeanywhere.co.uk/xml.aspx"
   ADDRESS_FETCH = "http://services.postcodeanywhere.co.uk/dataset.aspx?action=fetch"
-  
+
   class Request
     def self.account_code
       @@account_code
     end
+
     def self.account_code=(account_code)
       @@account_code = account_code
     end
+
     def self.license_code
       @@license_code
     end
+
     def self.license_code=(license_code)
       @@license_code = license_code
     end
   end
-  
-  class PostcodeSearch < Request
-  
-  	include HTTParty
-  	format :xml
 
-  	attr_accessor :postcode, :country_code, :fetch_id
+  class PostcodeSearch < Request
+
+    include HTTParty
+    format :xml
+
+    attr_accessor :postcode, :country_code, :fetch_id
 
     def initialize(args={})
       self.postcode = args[:postcode]
@@ -33,19 +36,19 @@ module PostcodeAnywhere
       self.fetch_id = args[:fetch_id]
     end
 
-  	def lookup
-  		data = PostcodeSearch.get self.lookup_url
-  		formatted_data = []
-  		unless data["PostcodeAnywhere"]["Schema"]["Field"][0]["Name"] == "error_number"
-  		  formatted_data = data["PostcodeAnywhere"]["Data"]["Item"]
-  		end
-  		formatted_data
-  	end
-	
-  	def fetch
-  		data = PostcodeSearch.get self.fetch_url
-  		formatted_data = data["NewDataSet"]["Data"]
-  		@address_lookup = AddressLookup.new
+    def lookup
+      data = get self.lookup_url
+      formatted_data = []
+      unless data["PostcodeAnywhere"]["Schema"]["Field"][0]["Name"] == "error_number"
+        formatted_data = data["PostcodeAnywhere"]["Data"]["Item"]
+      end
+      [formatted_data].flatten
+    end
+
+    def fetch
+      data = get self.fetch_url
+      formatted_data = data["NewDataSet"]["Data"]
+      @address_lookup = AddressLookup.new
       if self.country_code == 'GB'
         @address_lookup.postcode = formatted_data["postcode"]
         @address_lookup.address_line_1 = formatted_data["line1"]
@@ -61,55 +64,59 @@ module PostcodeAnywhere
         @address_lookup.post_town = formatted_data["city"]
         @address_lookup.county = formatted_data["county_name"]+", "+formatted_data["state"]
       else
-          
+
       end
       @address_lookup
-  	end
+    end
 
-  	def lookup_url
-  		ADDRESS_LOOKUP+"?"+self.lookup_type+"&"+self.postcode_with_no_spaces+self.selected_country+"&"+self.license_information
-  	end
+    def get url
+      PostcodeSearch.get url
+    end
 
-  	def fetch_url
-  		ADDRESS_FETCH+"&"+self.address_fetch_id+self.selected_country+"&"+self.license_information
-  	end
-	
-	  def selected_country
-	    if self.country_code == "GB"
-  			""
-  		else
-  			"&country="+self.country_code
-  		end
-	  end
+    def lookup_url
+      ADDRESS_LOOKUP+"?"+self.lookup_type+"&"+self.postcode_with_no_spaces+self.selected_country+"&"+self.license_information
+    end
 
-  	def address_fetch_id
-  		"id="+self.fetch_id
-  	end
+    def fetch_url
+      ADDRESS_FETCH+"&"+self.address_fetch_id+self.selected_country+"&"+self.license_information
+    end
 
-  	def lookup_type
-  		if self.country_code == "GB"
-  			"action=lookup&type=by_postcode"
-  		elsif self.country_code == "US"
-  			"action=lookup&type=by_zip"
-  		else
-  			"action=international&type=fetch_streets"
-  		end
-  	end
+    def selected_country
+      if self.country_code == "GB"
+        ""
+      else
+        "&country="+self.country_code
+      end
+    end
 
-  	def postcode_with_no_spaces
-  		(self.country_code=="US" ? "zip=" : "postcode=")+self.postcode.gsub(/\s/, '')
-  	end
+    def address_fetch_id
+      "id="+self.fetch_id
+    end
 
-  	def license_information
-  		"account_code="+PostcodeAnywhere::Request.account_code+"&license_code="+PostcodeAnywhere::Request.license_code
-  	end
-  
+    def lookup_type
+      if self.country_code == "GB"
+        "action=lookup&type=by_postcode"
+      elsif self.country_code == "US"
+        "action=lookup&type=by_zip"
+      else
+        "action=international&type=fetch_streets"
+      end
+    end
+
+    def postcode_with_no_spaces
+      (self.country_code=="US" ? "zip=" : "postcode=")+self.postcode.gsub(/\s/, '')
+    end
+
+    def license_information
+      "account_code="+PostcodeAnywhere::Request.account_code+"&license_code="+PostcodeAnywhere::Request.license_code
+    end
+
   end
 
   class AddressLookup
-  
+
     attr_accessor :postcode, :address_line_1, :address_line_2, :address_line_3, :post_town, :county
     attr_accessor :city, :county_name, :zip4, :state
-    
+
   end
 end
